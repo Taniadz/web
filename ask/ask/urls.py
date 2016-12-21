@@ -19,6 +19,7 @@ from qa import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', views.test),
     url(r'^login/', views.test),
     url(r'^signup/', views.test),
     url(r'^question/(?P<id>\d+)', views.test),
