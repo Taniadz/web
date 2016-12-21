@@ -3,7 +3,8 @@ sudo /etc/init.d/nginx restart
 sudo ln -sf /home/box/web/etc/hello.py /etc/gunicorn.d/hello.py
 sudo gunicorn -c /etc/gunicorn.d/hello.py hello:application
 
-sudo ln -sf /home/box/web/etc/django.conf /etc/gunicorn.d/test.conf
+sudo ln -sf /home/box/web/etc/django.conf /etc/gunicorn.d/test
 
-sudo gunicorn -c /home/box/web/etc/django.conf wsgi
+sudo gunicorn -c /home/box/web/etc/django.conf ask.wsgi
 sudo /etc/init.d/gunicorn restart
+s
