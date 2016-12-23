@@ -7,3 +7,6 @@ sudo ln -sf /home/box/web/etc/django.conf /etc/gunicorn.d/ask
 
 sudo gunicorn -c /home/box/web/etc/django.conf ask.wsgi:application
 sudo /etc/init.d/gunicorn restart
+
+sudo /etc/init.d/mysql start
+mysql -uroot -e "create database qa"
