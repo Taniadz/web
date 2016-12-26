@@ -21,11 +21,19 @@ class Question(models.Model):
     def __unicode__(self):
         return self.title
 
+    def get_url(self):
+	return reverse('one_question',
+	    kwargs={'pk': self.pk})
+
 class Answer(models.Model):
     text = models.TextField()
     added_at = models.DateField(blank = True, auto_now_add=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     author = models.ForeignKey(User, default=1)
 
-
+    def __unicode__(self):
+        return self.text
   
+    def get_url(self):
+	return reverse('one_question',
+	    kwargs={'pk': self.pk})

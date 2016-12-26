@@ -1,0 +1,16 @@
+{% for question in questions.object_list %}
+<a href="{{ question.get_url }}">{{ question }}</a>
+{% endfor %}
+
+<nav><ul class="pagination">
+{% for p in paginator.page_range %}
+    {% if p.number == page.number %}
+    <li class="active">
+    {% else %}
+    <li>
+    {% endif %}
+	<a href="{{ paginator.baseurl }}{{ p.number }}">
+	{{ p.number }}</a>
+    </li>
+{% endfor %}
+</ul></nav>
