@@ -1,6 +1,6 @@
 <h1>{{ question.title }}</h1>
 <p1>{{ question.text }}</p1>
 
-{% for answer in question.answer_set.all() %}
+{% for answer in question.answer_set.all %}
     {{ answer }}
 {% endfor %}

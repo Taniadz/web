@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
 from django.core.urlresolvers import reverse
 from qa.models import Question
+from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_GET
 
 from django.http import HttpResponse 
 def test(request, *args, **kwargs):
@@ -23,7 +25,7 @@ def paginate(request, qs):
         page = paginator.page(page)
     except EmptyPage:
         page = paginator.page(paginator.num_pages)
-    return page
+    return page, paginator
 
 def home(request):
     questions = Question.objects.all()
@@ -31,7 +33,7 @@ def home(request):
     page, paginator=paginate(request, questions)
     paginator.baseurl = reverse('home') + '?page='
     return render(request, 'home.html', {
-	'questions': questions.object_list,
+	'questions': page.object_list,
 	'paginator': paginator, 'page': page,
     })
 def popular(request):
@@ -40,7 +42,7 @@ def popular(request):
     page, paginator=paginate(request, questions)
     paginator.baseurl = reverse('popular') + '?page='
     return render(request, 'popular.html', {
-	'questions': questions.object_list,
+	'questions': page.object_list,
 	'paginator': paginator, 'page': page,
     })
 
