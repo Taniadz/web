@@ -26,7 +26,8 @@ def paginate(request, qs):
     return page
 
 def home(request):
-    questions=Question.objects.new
+    questions = Question.objects.all()
+    questions = questions.order_by('-added_at')
     page, paginator=paginate(request, questions)
     paginator.baseurl = reverse('home') + '?page='
     return render(request, 'home.html', {
@@ -34,7 +35,8 @@ def home(request):
 	'paginator': paginator, 'page': page,
     })
 def popular(request):
-    questions=Question.objects.popular
+    questions=Question.objects.all()
+    questions=questions.order_by('-rating')
     page, paginator=paginate(request, questions)
     paginator.baseurl = reverse('popular') + '?page='
     return render(request, 'popular.html', {
@@ -46,4 +48,5 @@ def question_details(request, pk):
     question = get_object_or_404(Question, pk=pk)
     return render(request, 'question_details.html', {
 	'question': question,
-    })
+    })
+
