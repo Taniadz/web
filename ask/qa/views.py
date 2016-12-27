@@ -29,7 +29,7 @@ def paginate(request, qs):
 
 def home(request):
     questions = Question.objects.all()
-    questions = questions.order_by('-added_at')
+    questions = questions.order_by('-id')
     page, paginator=paginate(request, questions)
     paginator.baseurl = reverse('home') + '?page='
     return render(request, 'home.html', {
