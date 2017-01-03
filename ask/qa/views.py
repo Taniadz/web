@@ -4,8 +4,12 @@ from django.core.urlresolvers import reverse
 from qa.models import Question
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from .forms import AskForm, AnswerForm
+from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic import ListView, DetailView, CreateView
 
-from django.http import HttpResponse 
 def test(request, *args, **kwargs):
     return HttpResponse('OK')
 
@@ -48,7 +52,38 @@ def popular(request):
 
 def question_details(request, pk):
     question = get_object_or_404(Question, pk=pk)
+    answers=question.ok.all()
+    
+    form = AnswerForm({"question": question.id})
+	
     return render(request, 'question_details.html', {
 	'question': question,
+	"form":form,
+	"answers":answers
     })
+
+
+@login_required
+def question_add(request):
+    if request.method == "POST":
+	form = AskForm(request.POST)
+	if form.is_valid():
+    	    question = form.save()
+            url = question.get_url()
+	    return HttpResponseRedirect(url)
+    else:
+	form = AskForm()
+    return render (request,'ask.html', {
+	'form':form    
+})
+@require_POST
+def answer_add(request):
+    if request.method == "POST":
+	form = AnswerForm(request.POST)
+	if form.is_valid():
+    	    answer = form.save()
+            url = answer.get_url()
+	    return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')
+     
 
