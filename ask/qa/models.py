@@ -29,11 +29,11 @@ class Question(models.Model):
 class Answer(models.Model):
     text = models.TextField()
     added_at = models.DateField(blank = True, auto_now_add=True)
-    question = models.ForeignKey(Question, related_name='ok', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name='answer_for_question', on_delete=models.CASCADE)
     author = models.ForeignKey(User, default=1)
 
     def get_url(self):
-        return reverse('question', kwargs={'question_id': self.question.id})
+        return reverse('answer', kwargs={'question_id': self.question.id})
 
     def __unicode__(self):
         return self.text

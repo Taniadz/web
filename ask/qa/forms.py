@@ -22,17 +22,22 @@ class AskForm(forms.Form):
         return text
 
     def save (self):
-	
         ask = Question(**self.cleaned_data)
         ask.save()
-	return ask
+        return ask
 
 class AnswerForm(forms.Form):
     
     text=forms.CharField(widget=forms.Textarea)
-    question=forms.IntegerField(widget=forms.HiddenInput)
+    question = forms.IntegerField(widget=forms.HiddenInput)
 
-
+    def clean_question(self):
+        question_id = self.cleaned_data['question']
+        try:
+            question = Question.objects.get(id=question_id)
+        except Question.DoesNotExist:
+            question = None
+        return question_id
 
     def clean_text(self):
         text = self.cleaned_data['text']
@@ -41,8 +46,7 @@ class AnswerForm(forms.Form):
                 u'Text is empty', code='validation_error')
         return text
 
-    def save (self):
-       
-	answer = Answer(**self.cleaned_data)
+    def save(self):
+        answer = Answer(**self.cleaned_data)
         answer.save()
-	return answer
+        return answer
