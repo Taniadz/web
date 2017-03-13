@@ -37,7 +37,7 @@ class AnswerForm(forms.Form):
             question = Question.objects.get(id=question_id)
         except Question.DoesNotExist:
             question = None
-        return question_id
+        return question
 
     def clean_text(self):
         text = self.cleaned_data['text']
